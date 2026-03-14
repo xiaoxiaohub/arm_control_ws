@@ -16,7 +16,7 @@ from launch.conditions import UnlessCondition
 
 
 packagepath = get_package_share_directory('arm_control')
-file_path = packagepath + '/config/arm.ros2_control.xacro'
+file_path = packagepath + '/config/arm_ros2_control.xacro'
 
 
 def generate_launch_description():
