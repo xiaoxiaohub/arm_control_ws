@@ -2,6 +2,9 @@
 
 这是一个基于 ROS 2 Humble 的机械臂控制和仿真包。支持在 RViz2 中的纯显示控制，也可以借助 Gazebo 进行完整的物理联合仿真。
 
+> **参考学习来源:**
+> 相关实现与灵感来源于 B站教程：[ROS2 机械臂联合仿真与控制](https://www.bilibili.com/video/BV1SGYRzBEEm)
+
 ## 环境依赖
 * Ubuntu 22.04
 * ROS 2 Humble
