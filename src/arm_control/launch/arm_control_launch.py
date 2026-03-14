@@ -13,6 +13,7 @@ import os
 
 from launch.conditions import IfCondition
 from launch.conditions import UnlessCondition
+from launch.conditions import LaunchConfigurationNotEquals
 
 
 packagepath = get_package_share_directory('arm_control')
@@ -35,9 +36,10 @@ def generate_launch_description():
     actions.append(
         DeclareLaunchArgument(
             'control_file',
-            default_value='test_arm_action.py',
+            default_value='',
             description='choice the control file',
             choices=[
+                '',
                 'test_arm_action.py',
                 'test_arm_publisher.py',
                 'test_arm_hand.py'
@@ -46,7 +48,7 @@ def generate_launch_description():
     )
 
     use_gazebo = LaunchConfiguration('use_gazebo', default='false')
-    control_file = LaunchConfiguration('control_file', default='test_arm_action.py')
+    control_file = LaunchConfiguration('control_file', default='')
 
     robot_desc = Command(['xacro ', file_path, ' use_gazebo:=', use_gazebo])
 
@@ -113,7 +115,8 @@ def generate_launch_description():
 
     arm_control_node = Node(
         package='arm_control',
-        executable=control_file
+        executable=control_file,
+        condition=LaunchConfigurationNotEquals('control_file', '')
     )
 
 
