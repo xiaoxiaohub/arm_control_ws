@@ -69,7 +69,9 @@ def generate_launch_description():
         package='controller_manager',
         executable='ros2_control_node',
         parameters=[packagepath + '/config/arm_controllers.yaml'],
-        name='controller_manager',
+        remappings=[
+            ('~/robot_description', '/robot_description'),
+        ],
         output='both',
         condition=UnlessCondition(use_gazebo)
     )
@@ -101,7 +103,8 @@ def generate_launch_description():
         arguments=[
             'arm_controller',
             'hand_controller',
-            'joint_state_broadcaster'
+            'joint_state_broadcaster',
+            '--param-file', packagepath + '/config/arm_controllers.yaml'
         ],
         output='screen',
         name='controllers'
