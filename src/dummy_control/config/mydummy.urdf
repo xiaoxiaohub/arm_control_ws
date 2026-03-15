@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot
-  name="mydummy_description">
+  name="dummy">
   <link
     name="Base_Link">
     <inertial>
