@@ -57,11 +57,13 @@ class ArmKeyboardController(Node):
 
     def publish_positions(self):
         msg = JointTrajectory()
-        msg.header.stamp = self.get_clock().now().to_msg()
+        # Set stamp to 0 to execute immediately, avoiding sim_time vs wall_time issues
+        msg.header.stamp.sec = 0
+        msg.header.stamp.nanosec = 0
         msg.joint_names = self.joint_names
 
         point = JointTrajectoryPoint()
-        point.positions = self.current_positions
+        point.positions = [float(p) for p in self.current_positions]
         point.time_from_start = Duration(sec=1, nanosec=0)
 
         msg.points = [point]
