@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arm">
+
+  <xacro:arg name="use_gazebo" default="false"/>
+
+  <xacro:include filename="robot_arm.urdf"/>
+
+  <!-- 是否添加 gz_ros2_control-system -->
+  <xacro:if value="$(arg use_gazebo)">
+    <gazebo>
+
+      <!-- 添加 world-joint 使机械臂固定在 Gazebo 仿真场景中 -->
+      <joint name="world_joint" type="fixed">
+        <parent>world</parent>
+        <child>base_link</child>
+      </joint>
+
+      <plugin filename="gz_ros2_control-system"
+              name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(find arm_control)/config/arm_controllers.yaml</parameters>
+      </plugin>
+
+    </gazebo>
+  </xacro:if>
+
+
+  <ros2_control name="MyRobotSystem" type="system">
+
+    <hardware>
+
+      <xacro:if value="$(arg use_gazebo)">
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </xacro:if>
+
+      <xacro:unless value="$(arg use_gazebo)">
+        <plugin>mock_components/GenericSystem</plugin>
+      </xacro:unless>
+
+    </hardware>
+
+
+    <!-- joint1 -->
+    <joint name="joint1">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- joint2 -->
+    <joint name="joint2">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- joint3 -->
+    <joint name="joint3">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- joint4 -->
+    <joint name="joint4">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- joint5 -->
+    <joint name="joint5">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- joint6 -->
+    <joint name="joint6">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- gripper -->
+    <joint name="hand_right_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+
+  </ros2_control>
+
+</robot>
