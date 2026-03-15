@@ -17,6 +17,7 @@ install(PROGRAMS
   arm_control/test_arm_action.py
   arm_control/test_arm_publisher.py
   arm_control/test_arm_hand.py
+  arm_control/test_arm_keyboard.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
