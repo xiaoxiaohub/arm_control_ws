@@ -2,7 +2,7 @@ from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
 
 from launch_ros.actions import Node
-from launch.actions import TimerAction
+from launch.actions import TimerAction, ExecuteProcess, OpaqueFunction
 from launch.substitutions import Command
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
@@ -18,6 +18,24 @@ from launch.conditions import LaunchConfigurationNotEquals
 
 packagepath = get_package_share_directory('arm_control')
 file_path = packagepath + '/config/arm_ros2_control.xacro'
+
+
+def _launch_control_file(context):
+    """Decide how to launch the control file at runtime."""
+    cf = context.launch_configurations.get('control_file', '')
+    if not cf:
+        return []
+    if cf == 'test_arm_keyboard.py':
+        # Keyboard control needs a real TTY, open in a new terminal window
+        return [ExecuteProcess(
+            cmd=['gnome-terminal', '--', 'bash', '-c',
+                 'ros2 run arm_control test_arm_keyboard.py; exec bash'],
+        )]
+    else:
+        return [Node(
+            package='arm_control',
+            executable=cf,
+        )]
 
 
 def generate_launch_description():
@@ -42,13 +60,13 @@ def generate_launch_description():
                 '',
                 'test_arm_action.py',
                 'test_arm_publisher.py',
-                'test_arm_hand.py'
+                'test_arm_hand.py',
+                'test_arm_keyboard.py'
             ]
         )
     )
 
     use_gazebo = LaunchConfiguration('use_gazebo', default='false')
-    control_file = LaunchConfiguration('control_file', default='')
 
     robot_desc = Command(['xacro ', file_path, ' use_gazebo:=', use_gazebo])
 
@@ -113,13 +131,6 @@ def generate_launch_description():
     )
 
 
-    arm_control_node = Node(
-        package='arm_control',
-        executable=control_file,
-        condition=LaunchConfigurationNotEquals('control_file', '')
-    )
-
-
     actions.extend([
         controllers_node,
         robot_desc_node,
@@ -127,7 +138,7 @@ def generate_launch_description():
         controller_manager_node,
         TimerAction(
             period=5.0,
-            actions=[arm_control_node],
+            actions=[OpaqueFunction(function=_launch_control_file)],
         )
     ])
 

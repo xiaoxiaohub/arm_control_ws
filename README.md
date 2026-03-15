@@ -67,6 +67,66 @@ ros2 launch arm_control arm_control_launch.py use_gazebo:=true control_file:=tes
 
 ---
 
+## 常用 ROS 2 调试命令
+
+在机械臂启动后，可以在新终端中使用以下命令来查看系统状态、调试和排查问题。
+
+### 节点信息
+
+```bash
+# 查看当前活跃的节点列表
+ros2 node list
+
+# 查看某个节点的详细信息（发布/订阅的话题、提供的服务等）
+ros2 node info /robot_state_publisher
+ros2 node info /arm_controller
+ros2 node info /controller_manager
+```
+
+### ros2_control 硬件与控制器
+
+```bash
+# 列出所有已注册的硬件接口（command/state interfaces）
+ros2 control list_hardware_interfaces
+
+# 列出所有硬件组件及其状态（configured / active 等）
+ros2 control list_hardware_components
+
+# 列出所有可用的控制器类型（插件）
+ros2 control list_controller_types
+
+# 列出当前已加载的控制器及其状态
+ros2 control list_controllers
+```
+
+### 话题 (Topic) 调试
+
+```bash
+# 查看当前所有话题
+ros2 topic list
+
+# 查看某个话题的实时数据
+ros2 topic echo /joint_states
+
+# 查看话题的发布频率
+ros2 topic hz /joint_states
+
+# 查看话题的消息类型与详情
+ros2 topic info /arm_controller/joint_trajectory
+```
+
+### 服务 (Service)
+
+```bash
+# 查看当前所有可用的服务
+ros2 service list
+
+# 查看服务的类型
+ros2 service type /controller_manager/list_controllers
+```
+
+---
+
 ## 问题排查
 
 *   **节点因没有权限卡住 (Operation not permitted)：** 
