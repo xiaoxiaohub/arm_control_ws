@@ -39,68 +39,109 @@
     </hardware>
 
 
-    <!-- joint1 -->
-    <joint name="joint1">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-    </joint>
+    
+  <!-- Gazebo material tags -->
+  <gazebo reference="Base_Link">
+    <material>Gazebo/Grey</material>
+    <gravity>true</gravity>
+    <selfCollide>false</selfCollide>
+  </gazebo>
+  <gazebo reference="Link1">
+    <material>Gazebo/Gray</material>
+    <selfCollide>false</selfCollide>
+  </gazebo>
+  <gazebo reference="Link2">
+    <material>Gazebo/Grey</material>
+    <selfCollide>false</selfCollide>
+  </gazebo>
+  <gazebo reference="Link3">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="Link4">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="Link5">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="Link6">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
 
-    <!-- joint2 -->
-    <joint name="joint2">
-      <command_interface name="position"/>
+  <!-- ros2_control configuration for Gazebo -->
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    <joint name="Joint1">
+      <command_interface name="position">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
       <state_interface name="position">
-        <param name="initial_value">0</param>
+        <param name="initial_value">0.0</param>
       </state_interface>
       <state_interface name="velocity"/>
     </joint>
+    <joint name="Joint2">
+      <command_interface name="position">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="Joint3">
+      <command_interface name="position">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="Joint4">
+      <command_interface name="position">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="Joint5">
+      <command_interface name="position">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="Joint6">
+      <command_interface name="position">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
 
-    <!-- joint3 -->
-    <joint name="joint3">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-    </joint>
+  <!-- Gazebo ros2_control plugin -->
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <parameters>$(find mydummy)/config/ros2_controllers.yaml</parameters>
+      <robot_param_node>robot_state_publisher</robot_param_node>
+    </plugin>
+  </gazebo>
 
-    <!-- joint4 -->
-    <joint name="joint4">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- joint5 -->
-    <joint name="joint5">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- joint6 -->
-    <joint name="joint6">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- gripper -->
-    <joint name="hand_right_joint">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-    </joint>
 
   </ros2_control>
 
