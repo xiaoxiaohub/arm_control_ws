@@ -5,21 +5,13 @@ controller_manager:
     arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-    hand_controller:
-      type: forward_command_controller/ForwardCommandController
-
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
 
 arm_controller:
   ros__parameters:
-    joints: [joint1, joint2, joint3, joint4, joint5, joint6]
+    joints: [Joint1, Joint2, Joint3, Joint4, Joint5, Joint6]
     command_interfaces: [position]
     state_interfaces: [position, velocity]
     allow_nonzero_velocity_at_trajectory_end: true
-
-hand_controller:
-  ros__parameters:
-    joints: [hand_right_joint]
-    interface_name: position

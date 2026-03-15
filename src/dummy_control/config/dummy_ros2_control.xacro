@@ -1,45 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arm">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mydummy">
 
   <xacro:arg name="use_gazebo" default="false"/>
 
-  <xacro:include filename="robot_arm.urdf"/>
+  <xacro:include filename="mydummy.urdf"/>
 
-  <!-- 是否添加 gz_ros2_control-system -->
-  <xacro:if value="$(arg use_gazebo)">
-    <gazebo>
-
-      <!-- 添加 world-joint 使机械臂固定在 Gazebo 仿真场景中 -->
-      <joint name="world_joint" type="fixed">
-        <parent>world</parent>
-        <child>base_link</child>
-      </joint>
-
-      <plugin filename="gz_ros2_control-system"
-              name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-        <parameters>$(find arm_control)/config/arm_controllers.yaml</parameters>
-      </plugin>
-
-    </gazebo>
-  </xacro:if>
-
-
-  <ros2_control name="MyRobotSystem" type="system">
-
-    <hardware>
-
-      <xacro:if value="$(arg use_gazebo)">
-        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-      </xacro:if>
-
-      <xacro:unless value="$(arg use_gazebo)">
-        <plugin>mock_components/GenericSystem</plugin>
-      </xacro:unless>
-
-    </hardware>
-
-
-    
   <!-- Gazebo material tags -->
   <gazebo reference="Base_Link">
     <material>Gazebo/Grey</material>
@@ -67,81 +32,93 @@
     <material>Gazebo/DarkGrey</material>
   </gazebo>
 
-  <!-- ros2_control configuration for Gazebo -->
-  <ros2_control name="GazeboSystem" type="system">
+  <!-- 是否添加 gz_ros2_control-system -->
+  <xacro:if value="$(arg use_gazebo)">
+    <gazebo>
+
+      <!-- 添加 world-joint 使机械臂固定在 Gazebo 仿真场景中 -->
+      <joint name="world_joint" type="fixed">
+        <parent>world</parent>
+        <child>Base_Link</child>
+      </joint>
+
+      <plugin filename="gz_ros2_control-system"
+              name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(find dummy_control)/config/dummy_controllers.yaml</parameters>
+      </plugin>
+
+    </gazebo>
+  </xacro:if>
+
+
+  <ros2_control name="MyDummySystem" type="system">
+
     <hardware>
-      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+
+      <xacro:if value="$(arg use_gazebo)">
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </xacro:if>
+
+      <xacro:unless value="$(arg use_gazebo)">
+        <plugin>mock_components/GenericSystem</plugin>
+      </xacro:unless>
+
     </hardware>
+
+
+    <!-- Joint1 -->
     <joint name="Joint1">
-      <command_interface name="position">
-        <param name="min">-1</param>
-        <param name="max">1</param>
-      </command_interface>
+      <command_interface name="position"/>
       <state_interface name="position">
-        <param name="initial_value">0.0</param>
+        <param name="initial_value">0</param>
       </state_interface>
       <state_interface name="velocity"/>
     </joint>
+
+    <!-- Joint2 -->
     <joint name="Joint2">
-      <command_interface name="position">
-        <param name="min">-1</param>
-        <param name="max">1</param>
-      </command_interface>
+      <command_interface name="position"/>
       <state_interface name="position">
-        <param name="initial_value">0.0</param>
+        <param name="initial_value">0</param>
       </state_interface>
       <state_interface name="velocity"/>
     </joint>
+
+    <!-- Joint3 -->
     <joint name="Joint3">
-      <command_interface name="position">
-        <param name="min">-1</param>
-        <param name="max">1</param>
-      </command_interface>
+      <command_interface name="position"/>
       <state_interface name="position">
-        <param name="initial_value">0.0</param>
+        <param name="initial_value">0</param>
       </state_interface>
       <state_interface name="velocity"/>
     </joint>
+
+    <!-- Joint4 -->
     <joint name="Joint4">
-      <command_interface name="position">
-        <param name="min">-1</param>
-        <param name="max">1</param>
-      </command_interface>
+      <command_interface name="position"/>
       <state_interface name="position">
-        <param name="initial_value">0.0</param>
+        <param name="initial_value">0</param>
       </state_interface>
       <state_interface name="velocity"/>
     </joint>
+
+    <!-- Joint5 -->
     <joint name="Joint5">
-      <command_interface name="position">
-        <param name="min">-1</param>
-        <param name="max">1</param>
-      </command_interface>
+      <command_interface name="position"/>
       <state_interface name="position">
-        <param name="initial_value">0.0</param>
+        <param name="initial_value">0</param>
       </state_interface>
       <state_interface name="velocity"/>
     </joint>
+
+    <!-- Joint6 -->
     <joint name="Joint6">
-      <command_interface name="position">
-        <param name="min">-1</param>
-        <param name="max">1</param>
-      </command_interface>
+      <command_interface name="position"/>
       <state_interface name="position">
-        <param name="initial_value">0.0</param>
+        <param name="initial_value">0</param>
       </state_interface>
       <state_interface name="velocity"/>
     </joint>
-  </ros2_control>
-
-  <!-- Gazebo ros2_control plugin -->
-  <gazebo>
-    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-      <parameters>$(find mydummy)/config/ros2_controllers.yaml</parameters>
-      <robot_param_node>robot_state_publisher</robot_param_node>
-    </plugin>
-  </gazebo>
-
 
   </ros2_control>
 
